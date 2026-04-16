@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@src/*": ["./src/*"],
+            "@config/*": ["./src/config/*"],
+            "@controllers/*": ["./src/controllers/*"],
+            "@models/*": ["./src/models/*"],
+            "@routes/*": ["./src/routes/*"],
+            "@services/*": ["./src/services/*"],
+            "@middlewares/*": ["./src/middlewares/*"],
+            "@helpers/*": ["./src/helpers/*"],
+            "@types/*": ["./src/types/*"]
+        },
+        "outDir": "./dist"
+    }
+}

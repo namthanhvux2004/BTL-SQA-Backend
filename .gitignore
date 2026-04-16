@@ -1,0 +1,17 @@
+node_modules/
+prisma/migrations/
+dist/
+coverage/
+generated/
+.vscode/
+.idea/
+.eslintcache
+.env*
+!.env.example
+!.env.production
+*.md
+!README.md
+database/seed/
+database/seeds/
+tests/
+.env.development

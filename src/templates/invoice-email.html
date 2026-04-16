@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hóa đơn thanh toán</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f4f4f4;
+            }
+            .email-container {
+                max-width: 700px;
+                margin: 40px auto;
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            .header {
+                background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+                padding: 30px 20px;
+                text-align: center;
+                color: #ffffff;
+            }
+            .logo {
+                max-width: 120px;
+                margin-bottom: 15px;
+            }
+            .header h1 {
+                margin: 0;
+                font-size: 26px;
+                font-weight: 600;
+            }
+            .header p {
+                margin: 10px 0 0 0;
+                font-size: 14px;
+                opacity: 0.9;
+            }
+            .content {
+                padding: 40px 30px;
+            }
+            .invoice-info {
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            .invoice-info-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+            .invoice-info-row:last-child {
+                margin-bottom: 0;
+            }
+            .invoice-info-label {
+                color: #666666;
+                font-weight: 500;
+            }
+            .invoice-info-value {
+                color: #333333;
+                font-weight: 600;
+            }
+            .status-badge {
+                display: inline-block;
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            .status-paid {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .section-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #333333;
+                margin: 30px 0 15px 0;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #0066cc;
+            }
+            .table-container {
+                overflow-x: auto;
+                margin-bottom: 30px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 14px;
+            }
+            thead {
+                background-color: #f8f9fa;
+            }
+            th {
+                padding: 12px 10px;
+                text-align: left;
+                font-weight: 600;
+                color: #333333;
+                border-bottom: 2px solid #dee2e6;
+            }
+            th.text-right,
+            td.text-right {
+                text-align: right;
+            }
+            th.text-center,
+            td.text-center {
+                text-align: center;
+            }
+            td {
+                padding: 12px 10px;
+                color: #666666;
+                border-bottom: 1px solid #dee2e6;
+            }
+            tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+            .cancelled {
+                color: #dc3545;
+                text-decoration: line-through;
+            }
+            .not-purchased {
+                color: #6c757d;
+                font-style: italic;
+            }
+            .total-section {
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                padding: 20px;
+                margin-top: 30px;
+            }
+            .total-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 12px;
+                font-size: 15px;
+            }
+            .total-row:last-child {
+                margin-bottom: 0;
+                padding-top: 15px;
+                border-top: 2px solid #dee2e6;
+            }
+            .total-label {
+                color: #666666;
+                font-weight: 500;
+            }
+            .total-value {
+                color: #333333;
+                font-weight: 600;
+            }
+            .grand-total .total-label,
+            .grand-total .total-value {
+                font-size: 20px;
+                color: #0066cc;
+                font-weight: 700;
+            }
+            .insurance-info {
+                background-color: #d1ecf1;
+                border-left: 4px solid #0c5460;
+                padding: 15px;
+                margin: 20px 0;
+                border-radius: 4px;
+            }
+            .insurance-info p {
+                margin: 5px 0;
+                color: #0c5460;
+                font-size: 13px;
+            }
+            .insurance-info strong {
+                font-weight: 600;
+            }
+            .footer {
+                background-color: #f8f9fa;
+                padding: 25px 30px;
+                text-align: center;
+                border-top: 1px solid #dee2e6;
+            }
+            .footer p {
+                margin: 5px 0;
+                color: #666666;
+                font-size: 13px;
+            }
+            .footer a {
+                color: #0066cc;
+                text-decoration: none;
+            }
+            .divider {
+                height: 1px;
+                background-color: #dee2e6;
+                margin: 20px 0;
+            }
+            .note {
+                background-color: #fff3cd;
+                border-left: 4px solid #ffc107;
+                padding: 15px;
+                margin: 20px 0;
+                border-radius: 4px;
+            }
+            .note p {
+                margin: 0;
+                color: #856404;
+                font-size: 13px;
+                line-height: 1.6;
+            }
+            @media only screen and (max-width: 600px) {
+                .email-container {
+                    margin: 0;
+                    border-radius: 0;
+                }
+                .content {
+                    padding: 20px 15px;
+                }
+                .invoice-info-row {
+                    flex-direction: column;
+                    margin-bottom: 15px;
+                }
+                .invoice-info-value {
+                    margin-top: 5px;
+                }
+                th,
+                td {
+                    padding: 8px 5px;
+                    font-size: 12px;
+                }
+                .section-title {
+                    font-size: 16px;
+                }
+                .total-row {
+                    font-size: 13px;
+                }
+                .grand-total .total-label,
+                .grand-total .total-value {
+                    font-size: 18px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <!-- Header -->
+            <div class="header">
+                <h1>🏥 {{HOSPITAL_NAME}}</h1>
+                <p>Hóa đơn thanh toán dịch vụ y tế</p>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Invoice Info -->
+                <div class="invoice-info">
+                    <div class="invoice-info-row">
+                        <span class="invoice-info-label">Mã hóa đơn:</span>
+                        <span class="invoice-info-value">{{INVOICE_CODE}}</span>
+                    </div>
+                    <div class="invoice-info-row">
+                        <span class="invoice-info-label">Bệnh nhân:</span>
+                        <span class="invoice-info-value">{{PATIENT_NAME}}</span>
+                    </div>
+                    <div class="invoice-info-row">
+                        <span class="invoice-info-label">Mã bệnh nhân:</span>
+                        <span class="invoice-info-value">{{PATIENT_CODE}}</span>
+                    </div>
+                    <div class="invoice-info-row">
+                        <span class="invoice-info-label">Ngày tạo:</span>
+                        <span class="invoice-info-value">{{CREATED_DATE}}</span>
+                    </div>
+                    <div class="invoice-info-row">
+                        <span class="invoice-info-label">Trạng thái:</span>
+                        <span class="invoice-info-value">
+                            <span class="status-badge status-paid"
+                                >{{STATUS}}</span
+                            >
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Services Section -->
+                {{SERVICES_SECTION}}
+
+                <!-- Medicines Section -->
+                {{MEDICINES_SECTION}}
+
+                <!-- Insurance Info -->
+                {{INSURANCE_INFO}}
+
+                <!-- Total Section -->
+                <div class="total-section">
+                    <div class="total-row">
+                        <span class="total-label">Tổng tiền dịch vụ:</span>
+                        <span class="total-value">{{SERVICES_TOTAL}} VNĐ</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">Tổng tiền thuốc:</span>
+                        <span class="total-value">{{MEDICINES_TOTAL}} VNĐ</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">Tổng cộng:</span>
+                        <span class="total-value">{{SUBTOTAL}} VNĐ</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">Giảm giá BHYT:</span>
+                        <span class="total-value"
+                            >-{{INSURANCE_DISCOUNT}} VNĐ</span
+                        >
+                    </div>
+                    <div class="total-row grand-total">
+                        <span class="total-label">Thành tiền:</span>
+                        <span class="total-value">{{TOTAL}} VNĐ</span>
+                    </div>
+                </div>
+
+                <!-- Payment Info -->
+                {{PAYMENT_INFO}}
+
+                <!-- Note -->
+                <div class="note">
+                    <p>
+                        <strong>Lưu ý:</strong> Hóa đơn này được tạo tự động từ
+                        hệ thống. Vui lòng lưu giữ email này để làm bằng chứng
+                        thanh toán. Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ
+                        bộ phận kế toán của bệnh viện.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p><strong>{{HOSPITAL_NAME}}</strong></p>
+                <p>{{HOSPITAL_ADDRESS}}</p>
+                <p>Hotline: {{HOSPITAL_PHONE}} | Email: {{HOSPITAL_EMAIL}}</p>
+                <p style="margin-top: 15px; color: #999999; font-size: 12px">
+                    © 2025 {{HOSPITAL_NAME}}. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
